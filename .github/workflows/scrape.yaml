@@ -21,10 +21,10 @@ jobs:
           cache: 'pip'
       -
         name: Install build dependencies
-        runs: pip install -r requirements.txt
+        run: pip install -r requirements.txt
       -
         name: Scraping SEP and Baseband firmwares
-        runs: python main.py
+        run: python main.py
       - 
         name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.2.0
