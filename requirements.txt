@@ -1,0 +1,14 @@
+aiofile==3.7.4
+aiofiles==0.8.0
+aiopath==0.6.10
+anyio==3.5.0
+caio==0.9.5
+certifi==2021.10.8
+charset-normalizer==2.0.12
+idna==3.3
+remotezip==0.9.3
+requests==2.27.1
+requests-futures==1.0.0
+sniffio==1.2.0
+tabulate==0.8.9
+urllib3==1.26.8
