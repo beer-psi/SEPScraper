@@ -34,7 +34,7 @@ async def save_signed_sepbb(device):
                     if x['Info']['DeviceClass'].lower() == board['boardconfig'].lower()
                 )
             except StopIteration:
-                loggging.error("Couldn't get data from BuildManifest")
+                logging.error("Couldn't get data from BuildManifest")
                 continue
 
             if 'RestoreSEP' in buildidentity['Manifest']:
