@@ -28,10 +28,14 @@ async def save_signed_sepbb(device):
                 buildmanifest = plistlib.loads(f.read())
         boards = [x for x in device['boards'] if x['boardconfig'].lower().endswith('ap')]
         for board in boards:
-            buildidentity = next(
-                x for x in buildmanifest['BuildIdentities']
-                if x['Info']['DeviceClass'].lower() == board['boardconfig'].lower()
-            )
+            try:
+                buildidentity = next(
+                    x for x in buildmanifest['BuildIdentities']
+                    if x['Info']['DeviceClass'].lower() == board['boardconfig'].lower()
+                )
+            except StopIteration:
+                loggging.error("Couldn't get data from BuildManifest")
+                continue
 
             if 'RestoreSEP' in buildidentity['Manifest']:
                 sep_path = buildidentity['Manifest']['RestoreSEP']['Info']['Path']
