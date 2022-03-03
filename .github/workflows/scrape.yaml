@@ -25,11 +25,29 @@ jobs:
       -
         name: Scraping SEP and Baseband firmwares
         run: python main.py
+      -
+        name: Making archives for firmwares
+        run: |
+          # Delete empty directories
+          find output -type d -empty -delete
+
+          # Find and zip leaf directories
+          find output -type d -not -empty -exec sh -c '(ls -p "{}"|grep />/dev/null)|| (cd "{}"; zip -rm9 $(basename "{}").zip *)' \;
+
+          # Rename them
+          for file in output/**/*.zip; do
+            mv $file $(echo $file | awk 'BEGIN { FS="/" }; {printf "%s/%s/%s_%s_%s.zip", $1, $2, $3, $4, $2}')
+          done
+
+          # Delete empty directories (again)
+          find output -type d -empty -delete
       - 
-        name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.2.0
-        with:
-          branch: gh-pages
-          folder: output
-          git-config-name: GitHub Actions
-          git-config-email: github-actions[bot]@users.noreply.github.com
+        name: Creating GitHub releases for each firmware
+        run: |
+          for dir in output/*; do
+            assets=()
+            for asset in $dir/*; do
+              assets+=("-a" "$asset")
+            done
+            hub release create "${assets[@]}" -m "$(basename $dir | awk 'BEGIN { FS="_" }; {print $1}' | sed 's/-/ /g')" $(basename $dir | awk 'BEGIN { FS="_" }; {print $NF}')
+          done
