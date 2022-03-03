@@ -54,7 +54,6 @@ jobs:
             VERSION="$(basename $dir | awk 'BEGIN { FS="_" }; {print $1}' | sed 's/-/ /g')"
 
             if ! git ls-remote --exit-code --tags "https://github.com/$GITHUB_REPOSITORY" $BUILDID >/dev/null; then
-              assets=()
               for asset in $dir/*; do
                 if [[ $asset =~ Mac|ADP ]]; then
                   OS="macOS"
@@ -63,10 +62,8 @@ jobs:
                 else
                   OS="iOS"
                 fi
-
-                assets+=("-a" "$asset")
               done
-              hub release create "${assets[@]}" -m "$OS $VERSION ($BUILDID)" $BUILDID
+              gh release create $BUILDID $dir/*.zip -n "$OS $VERSION ($BUILDID)"
               sleep 300 
             fi
           done
