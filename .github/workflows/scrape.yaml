@@ -45,9 +45,14 @@ jobs:
         name: Creating GitHub releases for each firmware
         run: |
           for dir in output/*; do
-            assets=()
-            for asset in $dir/*; do
-              assets+=("-a" "$asset")
-            done
-            hub release create "${assets[@]}" -m "$(basename $dir | awk 'BEGIN { FS="_" }; {print $1}' | sed 's/-/ /g')" $(basename $dir | awk 'BEGIN { FS="_" }; {print $NF}')
+            BUILDID=$(basename $dir | awk 'BEGIN { FS="_" }; {print $NF}')
+            VERSION="$(basename $dir | awk 'BEGIN { FS="_" }; {print $1}' | sed 's/-/ /g')"
+
+            if git ls-remote --exit-code --tags "https://github.com/$GITHUB_REPOSITORY" $BUILDID >/dev/null; then
+              assets=()
+              for asset in $dir/*; do
+                assets+=("-a" "$asset")
+              done
+              hub release create "${assets[@]}" -m "$VERSION" $BUILDID 
+            fi
           done
