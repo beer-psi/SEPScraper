@@ -57,4 +57,5 @@ jobs:
               done
               hub release create "${assets[@]}" -m "$VERSION" $BUILDID 
             fi
+            sleep 60
           done
