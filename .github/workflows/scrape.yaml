@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
+    defaults:
+      run:
+        shell: zsh
     steps:
       -
         name: Checkout repository
@@ -48,7 +51,7 @@ jobs:
             BUILDID=$(basename $dir | awk 'BEGIN { FS="_" }; {print $NF}')
             VERSION="$(basename $dir | awk 'BEGIN { FS="_" }; {print $1}' | sed 's/-/ /g')"
 
-            if git ls-remote --exit-code --tags "https://github.com/$GITHUB_REPOSITORY" $BUILDID >/dev/null; then
+            if ! git ls-remote --exit-code --tags "https://github.com/$GITHUB_REPOSITORY" $BUILDID >/dev/null; then
               assets=()
               for asset in $dir/*; do
                 assets+=("-a" "$asset")
