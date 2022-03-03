@@ -45,6 +45,8 @@ jobs:
           find output -type d -empty -delete
       - 
         name: Creating GitHub releases for each firmware
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           for dir in output/*; do
             BUILDID=$(basename $dir | awk 'BEGIN { FS="_" }; {print $NF}')
