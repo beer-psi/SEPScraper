@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
-    defaults:
-      run:
-        shell: zsh
     steps:
       -
         name: Checkout repository
@@ -31,6 +28,8 @@ jobs:
       -
         name: Making archives for firmwares
         run: |
+          shopt -s globstar
+
           # Delete empty directories
           find output -type d -empty -delete
 
