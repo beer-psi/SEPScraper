@@ -59,11 +59,13 @@ jobs:
                   OS="macOS"
                 elif [[ $asset =~ AppleTV ]]; then
                   OS="tvOS"
+                elif [[ $asset =~ Bridge ]]; then
+                  OS="bridgeOS"
                 else
                   OS="iOS"
                 fi
               done
-              gh release create $BUILDID $dir/*.zip -n "$OS $VERSION ($BUILDID)"
+              gh release create $BUILDID $dir/*.zip -t "$OS $VERSION ($BUILDID)"
               sleep 300 
             fi
           done
