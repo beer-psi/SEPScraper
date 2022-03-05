@@ -52,7 +52,7 @@ async def save_signed_sepbb(device):
                 logging.warning(f"[{device['identifier']}, {board['boardconfig']}, {fw['buildid']}] Couldn't find baseband firmware")
 
             logging.info(f"Downloading")
-            output_path = aiopath.AsyncPath(f"./output/{fw['version'].replace(' ', '-')}_{fw['buildid']}/{device['identifier']}/{board['boardconfig']}")
+            output_path = aiopath.AsyncPath(f"./output/{fw['version'].replace(' ', '').replace('beta', 'b').replace('RC', 'rc')}_{fw['buildid']}/{device['identifier']}/{board['boardconfig']}")
             await output_path.mkdir(parents=True, exist_ok=True)
             if sep_path:
                 pzb(fw['url'], sep_path, output_path / posixpath.split(sep_path)[-1])
