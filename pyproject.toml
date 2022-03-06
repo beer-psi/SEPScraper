@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "SEPScraper"
+version = "0.1.0"
+description = "Scrapes Apple's SEP and baseband firmwares"
+authors = ["beerpsi <lacvtg.a1.2023@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiofile = "^3.7.4"
+aiofiles = "^0.8.0"
+aiopath = "^0.6.10"
+anyio = "^3.5.0"
+caio = "^0.9.5"
+certifi = "^2021.10.8"
+charset-normalizer = "^2.0.12"
+idna = "^3.3"
+remotezip = "^0.9.3"
+requests = "^2.27.1"
+requests-futures = "^1.0.0"
+sniffio = "^1.2.0"
+tabulate = "^0.8.9"
+urllib3 = "^1.26.8"
+
+[tool.poetry.dev-dependencies]
+black = "^22.1.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
